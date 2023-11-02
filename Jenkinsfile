@@ -35,9 +35,10 @@ pipeline {
 	      }
 	    }
         stage("Push Image to Docker Hub"){
+            steps {
 		sh 'docker push  rahmafeidi/testspring:latest'
 	    }
-
+           }
 	stage("SSH Into k8s Server") {
 	 steps {
 		def remote = [:]
@@ -45,7 +46,7 @@ pipeline {
 		remote.host = '16.16.182.102'
 		remote.user = 'ubuntu'
 		remote.allowAnyHosts = true
-          }
+          
 	stage('Put k8s-spring-boot-deployment.yml onto k8smaster') {
 	 steps {
 		    sshPut remote: remote, from: 'deployment.yml', into: '.'
@@ -56,6 +57,7 @@ pipeline {
 		  sshCommand remote: remote, command: "kubectl apply -f deployment.yml"
         }
         }
+    }
     }
   }
 }
