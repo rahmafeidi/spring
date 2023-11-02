@@ -6,21 +6,27 @@ pipeline {
      }
      stages { 
         stage("Git Clone"){
+         steps {
  
             git credentialsId: 'github', url: 'https://github.com/rahmafeidi/spring.git'
         }
+        }
 
         stage('Gradle Build') {
+         steps {
 
           sh './gradlew build'
 
         }
+        }
 
 	stage("Docker build"){
+	 steps {
 		sh 'docker version'
 		sh 'docker build -t testspring .'
 		sh 'docker image list'
 		sh 'docker tag testspring rahmafeidi/testspring:latest'
+	    }
 	    }
 
         stage('Login') {
@@ -33,20 +39,23 @@ pipeline {
 	    }
 
 	stage("SSH Into k8s Server") {
+	 steps {
 		def remote = [:]
 		remote.name = 'master'
 		remote.host = '16.16.182.102'
 		remote.user = 'ubuntu'
 		remote.allowAnyHosts = true
-
+          }
 	stage('Put k8s-spring-boot-deployment.yml onto k8smaster') {
+	 steps {
 		    sshPut remote: remote, from: 'deployment.yml', into: '.'
 		}
-
+        }
 	stage('Deploy spring boot') {
+	 steps {
 		  sshCommand remote: remote, command: "kubectl apply -f deployment.yml"
+        }
         }
     }
   }
 }
-
