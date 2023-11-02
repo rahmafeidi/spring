@@ -18,8 +18,8 @@ node {
 		sh 'docker tag testspring rahmafeidi/testspring:latest'
     }
 
-    withCredentials([string(credentialsId: 'dockerhub', variable: 'PASSWORD')]) {
-        sh 'docker login -u rahmafeidi -p $PASSWORD'
+    stage("login") {
+        sh 'docker login -u rahmafeidi -p 11937703rahma'
     }
 
     stage("Push Image to Docker Hub"){
