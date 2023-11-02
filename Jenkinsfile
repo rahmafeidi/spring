@@ -61,7 +61,7 @@ pipeline {
         }
         stage('Deploy spring boot') {
          steps {
-                  sshCommand remote: remote, command: "kubectl apply -f deploym>
+                  sshCommand remote: remote, command: "kubectl apply -f deployment.yml"
         }
         }
     }
