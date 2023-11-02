@@ -47,11 +47,13 @@ pipeline {
            }
         stage("SSH Into k8s Server") {
          steps {
+           script {
                 def remote = [:]
                 remote.name = 'master'
                 remote.host = '16.16.182.102'
                 remote.user = 'ubuntu'
                 remote.allowAnyHosts = true
+                }
          }
          }
         stage('Put k8s-spring-boot-deployment.yml onto k8smaster') {
