@@ -1,5 +1,11 @@
 pipeline {
     agent any
+    
+    tools {
+        // Specify the name of the Gradle installation defined in Jenkins
+        gradle 'gradle'
+    }
+
   
      environment {
        DOCKERHUB_CREDENTIALS = credentials('dockerhub')
@@ -15,7 +21,7 @@ pipeline {
         stage('Gradle Build') {
          steps {
 
-          sh './gradlew build'
+          sh 'gradle build'
 
         }
         }
