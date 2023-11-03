@@ -31,6 +31,7 @@ node {
                 remote.name = 'master'
                 remote.host = '16.16.182.102'
                 remote.user = 'ubuntu'
+                def sshCredentialsId = 'ssh_key'
                 remote.allowAnyHosts = true
 
         stage('Put k8s-spring-boot-deployment.yml onto k8smaster') {
@@ -38,7 +39,7 @@ node {
         }
 
         stage('Deploy spring boot') {
-                  sshCommand remote: remote, command: "kubectl apply -f deployment.yml"
+                  sshCommand remote: remote, command: " kubectl apply -f deployment.yml"
         }
     }
 
